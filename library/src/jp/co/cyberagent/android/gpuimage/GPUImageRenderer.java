@@ -26,10 +26,6 @@ import android.hardware.Camera.Size;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
 
-import jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -38,12 +34,18 @@ import java.nio.IntBuffer;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import jp.co.cyberagent.android.gpuimage.filters.GPUImageFilter;
+import jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil;
+
 import static jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil.TEXTURE_NO_ROTATION;
 
 @TargetApi(11)
 public class GPUImageRenderer implements Renderer, PreviewCallback {
     public static final int NO_IMAGE = -1;
-    static final float CUBE[] = {
+    public static final float CUBE[] = {
             -1.0f, -1.0f,
             1.0f, -1.0f,
             -1.0f, 1.0f,
@@ -92,7 +94,7 @@ public class GPUImageRenderer implements Renderer, PreviewCallback {
     @Override
     public void onSurfaceCreated(final GL10 unused, final EGLConfig config) {
         GLES20.glDisable(GL10.GL_DITHER);
-        GLES20.glClearColor(0,0,0,0);
+        GLES20.glClearColor(0, 0, 0, 0);
         GLES20.glEnable(GL10.GL_CULL_FACE);
         GLES20.glEnable(GL10.GL_DEPTH_TEST);
         mFilter.init();
@@ -300,7 +302,7 @@ public class GPUImageRenderer implements Renderer, PreviewCallback {
     }
 
     public void setRotationCamera(final Rotation rotation, final boolean flipHorizontal,
-            final boolean flipVertical) {
+                                  final boolean flipVertical) {
         setRotation(rotation, flipVertical, flipHorizontal);
     }
 

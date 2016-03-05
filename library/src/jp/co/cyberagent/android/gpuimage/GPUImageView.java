@@ -19,12 +19,16 @@ package jp.co.cyberagent.android.gpuimage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.MediaScannerConnection;
 import android.graphics.PixelFormat;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.os.*;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewTreeObserver;
@@ -36,6 +40,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.IntBuffer;
 import java.util.concurrent.Semaphore;
+
+import jp.co.cyberagent.android.gpuimage.filters.GPUImageFilter;
 
 public class GPUImageView extends FrameLayout {
 
@@ -183,8 +189,8 @@ public class GPUImageView extends FrameLayout {
      * listener.
      *
      * @param folderName the folder name
-     * @param fileName the file name
-     * @param listener the listener
+     * @param fileName   the file name
+     * @param listener   the listener
      */
     public void saveToPictures(final String folderName, final String fileName,
                                final OnPictureSavedListener listener) {
@@ -285,6 +291,7 @@ public class GPUImageView extends FrameLayout {
 
     /**
      * Capture the current image with the size as it is displayed and retrieve it as Bitmap.
+     *
      * @return current output as Bitmap
      * @throws InterruptedException
      */
